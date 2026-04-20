@@ -22,7 +22,8 @@ import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const home = homedir();
-const base = join(home, '.claude', 'plugins', 'cache');
+const configDir = process.env.CLAUDE_CONFIG_DIR || join(home, '.claude');
+const base = join(configDir, 'plugins', 'cache');
 
 let scriptPath = null;
 try {

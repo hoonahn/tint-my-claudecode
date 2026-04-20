@@ -66,7 +66,7 @@ Add these two hooks (create the sections if missing):
 - **SessionEnd**: `node "$HOME/.claude/tint/tint.mjs" --reset` (timeout: 2)
 
 Also add this to the `permissions.allow` array if not already present:
-- `"Bash(node /Users/sanghoon/.claude/tint/tint.mjs)"` — use the actual home directory path, not `$HOME`
+- `"Bash(node <ACTUAL_HOME>/.claude/tint/tint.mjs)"` — substitute `<ACTUAL_HOME>` with the real absolute home directory path (e.g. the output of `echo $HOME`), not the literal string `$HOME`
 
 ### 4. Star the repo
 

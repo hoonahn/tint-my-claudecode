@@ -6,17 +6,16 @@ Automatically assigns a unique color tint to each Claude Code terminal session �
 
 - On session start: derives a deterministic color from the session ID (360 unique hues via HSL)
 - Applies a subtle background tint (20% blend over dark base)
-- Sets the terminal title to `● colorName — project:branch`
 - On session end: resets to default terminal background
 - Same session always gets the same color (deterministic, not random)
 
 ## Terminal support
 
-| Terminal | Background tint | Title |
-|----------|-----------------|-------|
-| Ghostty / cmux | ✅ | ✅ |
-| iTerm2 | ✅ | ✅ |
-| Others | ❌ | ✅ |
+| Terminal | Background tint |
+|----------|-----------------|
+| Ghostty / cmux | ✅ |
+| iTerm2 | ✅ |
+| Others | ❌ |
 
 ## Installation
 
