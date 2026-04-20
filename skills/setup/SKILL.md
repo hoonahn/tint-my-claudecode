@@ -1,34 +1,14 @@
 ---
+name: setup
 description: Install tint-my-claudecode hooks for automatic session color-coding
-allowed-tools: Bash
+allowed-tools: Bash, Write, Edit
 ---
 
 Set up automatic session color-coding by creating a wrapper script and configuring Claude Code hooks.
 
 **Steps:**
 
-1. Find the plugin installation path:
-```bash
-node -e "
-const p=require('path'),f=require('fs'),h=require('os').homedir();
-const base=p.join(h,'.claude','plugins','cache');
-// search all marketplaces
-const script=require('fs').readdirSync(base,{withFileTypes:true})
-  .filter(d=>d.isDirectory()).flatMap(m=>
-    f.readdirSync(p.join(base,m.name),{withFileTypes:true})
-      .filter(d=>d.isDirectory()&&d.name==='tint-my-claudecode')
-      .map(d=>p.join(base,m.name,d.name))
-  ).flatMap(dir=>
-    f.readdirSync(dir,{withFileTypes:true})
-      .filter(d=>d.isDirectory())
-      .map(v=>p.join(dir,v.name,'scripts','apply-color.mjs'))
-      .filter(s=>f.existsSync(s))
-  )[0];
-console.log(script||'NOT_FOUND');
-"
-```
-
-2. Create the wrapper directory and script at `~/.claude/tint/tint.mjs`:
+1. Create the wrapper directory and script at `~/.claude/tint/tint.mjs`:
 ```bash
 mkdir -p "$HOME/.claude/tint"
 ```
@@ -44,7 +24,6 @@ import { pathToFileURL } from 'node:url';
 const home = homedir();
 const base = join(home, '.claude', 'plugins', 'cache');
 
-// Find latest installed version of tint-my-claudecode
 let scriptPath = null;
 try {
   for (const marketplace of readdirSync(base)) {
@@ -68,13 +47,13 @@ if (!scriptPath) {
 await import(pathToFileURL(scriptPath).href);
 ```
 
-3. Make it executable:
+2. Make it executable:
 ```bash
 chmod +x "$HOME/.claude/tint/tint.mjs"
 ```
 
-4. Add hooks to `~/.claude/settings.json` — read the file, then add:
-- `SessionStart`: `node $HOME/.claude/tint/tint.mjs`
-- `SessionEnd`: `node $HOME/.claude/tint/tint.mjs --reset`
+3. Add hooks to `~/.claude/settings.json` — read the file, then add:
+- `SessionStart`: `node "$HOME/.claude/tint/tint.mjs"` (timeout: 3)
+- `SessionEnd`: `node "$HOME/.claude/tint/tint.mjs" --reset` (timeout: 2)
 
-5. Reply: "✅ tint-my-claudecode setup complete! Restart Claude Code to activate."
+4. Reply: "✅ tint-my-claudecode setup complete! Restart Claude Code to activate."

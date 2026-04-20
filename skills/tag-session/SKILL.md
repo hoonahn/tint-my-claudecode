@@ -1,4 +1,5 @@
 ---
+name: tag-session
 description: Reroll or set a specific color for the current Claude Code terminal session
 argument-hint: "[color-name|hue-0-359]"
 allowed-tools: Bash
