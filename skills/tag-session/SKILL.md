@@ -5,29 +5,21 @@ argument-hint: "[color-name|hue-0-359]"
 allowed-tools: Bash
 ---
 
-Change the terminal session color.
+Change the terminal session color. Run exactly one command and reply with the result.
 
 **Color names:** `red` `orange` `yellow` `green` `teal` `blue` `violet` `pink` `rose`
 **Or use a hue angle:** `0`–`359`
 
-**Steps:**
-
-1. Parse `$ARGUMENTS`:
-   - Empty → reroll (random color, different from current)
-   - Color name (e.g. `violet`) → apply that tone
-   - Number (e.g. `230`) → apply that exact hue
-
-2. Run the appropriate command:
+Parse `$ARGUMENTS` and run ONE command:
 
 ```bash
 # No args → reroll
 node "$HOME/.claude/tint/tint.mjs" --reroll
 
-# Color name
-node "$HOME/.claude/tint/tint.mjs" --color=<NAME>
-
-# Hue number
-node "$HOME/.claude/tint/tint.mjs" --color=<HUE>
+# Color name or hue number
+node "$HOME/.claude/tint/tint.mjs" --color=$ARGUMENTS
 ```
 
-3. Reply: "🎨 Session color → **\<colorName\>** (hue \<N\>°)"
+The command prints `<colorName> <hue>` on stdout. Use that to reply:
+
+"🎨 Session color → **\<colorName\>** (hue \<N\>°)"

@@ -135,6 +135,7 @@ if (colorFlag != null) {
   const color = makeColor(hue);
   applyColor(color);
   saveCache(sessionId, color);
+  console.log(`${color.name} ${color.hue}`);
   process.exit(0);
 }
 
@@ -143,6 +144,7 @@ if (isReroll) {
   const color = makeColor(hue);
   applyColor(color);
   saveCache(sessionId, color);
+  console.log(`${color.name} ${color.hue}`);
   process.exit(0);
 }
 
