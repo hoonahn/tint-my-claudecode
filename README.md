@@ -12,43 +12,21 @@ Automatically assigns a unique color tint to each Claude Code terminal session �
 
 ## Terminal support
 
-| Terminal | Tab color | Background tint | Title |
-|----------|-----------|-----------------|-------|
-| Ghostty / cmux | ✅ | ✅ | ✅ |
-| iTerm2 | ✅ | ✅ | ✅ |
-| Others | ❌ | ❌ | ✅ |
+| Terminal | Background tint | Title |
+|----------|-----------------|-------|
+| Ghostty / cmux | ✅ | ✅ |
+| iTerm2 | ✅ | ✅ |
+| Others | ❌ | ✅ |
 
 ## Installation
 
 ```bash
-# 1. Add marketplace to ~/.claude/settings.json
+curl -fsSL https://raw.githubusercontent.com/hoonahn/tint-my-claudecode/main/install.sh | bash
 ```
 
-```json
-{
-  "extraKnownMarketplaces": {
-    "hoonahn": {
-      "source": {
-        "source": "github",
-        "repo": "hoonahn/tint-my-claudecode"
-      }
-    }
-  }
-}
-```
-
-```bash
-# 2. Install plugin
-/plugin install tint-my-claudecode
-
-# 3. Run setup to configure hooks
-/setup
-```
+The installer runs a Claude Code agent that handles everything automatically.
 
 ## Skills
-
-### `/setup`
-Installs hooks for automatic session color-coding. Run once after installation.
 
 ### `/tag-session [color]`
 Manually change the current session color.

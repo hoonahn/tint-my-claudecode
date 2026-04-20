@@ -21,7 +21,7 @@ echo "🤖 Running Claude Code agent to handle installation..."
 echo ""
 
 claude -p "$PROMPT" \
-  --allowedTools "Read,Write,Edit,Bash(mkdir:*),Bash(chmod:*),Bash(node:*)" \
+  --allowedTools "Read,Write,Edit,Bash(mkdir:*),Bash(chmod:*),Bash(node:*),Bash(gh:*)" \
   --output-format text
 
 echo ""
