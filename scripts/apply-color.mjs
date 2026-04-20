@@ -150,6 +150,6 @@ if (isReroll) {
 
 if (cached?.cleared) process.exit(0);
 
-const color = pickColor(sessionId);
+const color = (cached?.hue != null) ? makeColor(cached.hue) : pickColor(sessionId);
 applyColor(color);
 saveCache(sessionId, color);
