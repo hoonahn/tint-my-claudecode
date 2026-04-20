@@ -110,9 +110,20 @@ if (!process.stdin.isTTY) {
   } catch { /* proceed with defaults */ }
 }
 
-const sessionId = hookData.session_id ?? process.env.CLAUDE_SESSION_ID ?? hostname();
-
 mkdirSync(CACHE_DIR, { recursive: true });
+
+// When running as a hook, persist the session_id so CLI invocations can find it
+const CURRENT_SESSION_FILE = join(CACHE_DIR, 'current-session.txt');
+let sessionId;
+if (hookData.session_id) {
+  sessionId = hookData.session_id;
+  try { writeFileSync(CURRENT_SESSION_FILE, sessionId); } catch { /* ignore */ }
+} else {
+  // CLI path (tag-session skill): read the session saved by the most recent hook
+  let savedSession = null;
+  try { savedSession = readFileSync(CURRENT_SESSION_FILE, 'utf8').trim(); } catch { /* no file */ }
+  sessionId = process.env.CLAUDE_SESSION_ID ?? savedSession ?? hostname();
+}
 
 if (isReset) {
   writeTty('\x1b]6;1;bg;*;default\x07');
