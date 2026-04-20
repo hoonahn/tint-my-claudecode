@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 import { readFileSync, mkdirSync, writeFileSync, openSync, writeSync, closeSync } from 'fs';
-import { join, basename } from 'path';
+import { join } from 'path';
 import { homedir, hostname } from 'os';
 import { createHash } from 'crypto';
-import { execSync } from 'child_process';
 
 const CACHE_DIR = join(homedir(), '.cache', 'tint-my-claudecode');
 
@@ -82,36 +81,17 @@ function setGhosttyBgColor(r, g, b) {
   writeTty(`\x1b]11;#${hex}\x07`);
 }
 
-function setTitle(text) {
-  writeTty(`\x1b]0;${text}\x07`);
-}
-
-function applyColor(color, label) {
+function applyColor(color) {
   const [r, g, b] = color.rgb;
   setIterm2TabColor(r, g, b);
   setGhosttyBgColor(r, g, b);
-  setTitle(`● ${color.name} — ${label}`);
 }
 
-function getGitBranch(cwd) {
-  try {
-    return execSync('git branch --show-current', {
-      cwd, encoding: 'utf8', timeout: 1000, stdio: ['ignore', 'pipe', 'ignore']
-    }).trim() || null;
-  } catch { return null; }
-}
-
-function buildSummary(cwd) {
-  const dir = basename(cwd);
-  const branch = getGitBranch(cwd);
-  return branch ? `${dir}:${branch}` : dir;
-}
-
-function saveCache(sessionId, cwd, label, color) {
+function saveCache(sessionId, color) {
   try {
     writeFileSync(
       join(CACHE_DIR, `${sessionId}.json`),
-      JSON.stringify({ sessionId, cwd, label, colorName: color.name, hue: color.hue }, null, 2)
+      JSON.stringify({ sessionId, colorName: color.name, hue: color.hue }, null, 2)
     );
   } catch { /* ignore */ }
 }
@@ -131,15 +111,12 @@ if (!process.stdin.isTTY) {
 }
 
 const sessionId = hookData.session_id ?? process.env.CLAUDE_SESSION_ID ?? hostname();
-const cwd = hookData.cwd ?? process.cwd();
-const label = buildSummary(cwd);
 
 mkdirSync(CACHE_DIR, { recursive: true });
 
 if (isReset) {
   writeTty('\x1b]6;1;bg;*;default\x07');
   writeTty('\x1b]111\x07');
-  setTitle(label);
   try { writeFileSync(join(CACHE_DIR, `${sessionId}.json`), JSON.stringify({ cleared: true })); } catch { /* ignore */ }
   process.exit(0);
 }
@@ -156,21 +133,21 @@ if (colorFlag != null) {
     process.exit(1);
   }
   const color = makeColor(hue);
-  applyColor(color, label);
-  saveCache(sessionId, cwd, label, color);
+  applyColor(color);
+  saveCache(sessionId, color);
   process.exit(0);
 }
 
 if (isReroll) {
   const hue = randomHue(cached?.hue ?? null);
   const color = makeColor(hue);
-  applyColor(color, label);
-  saveCache(sessionId, cwd, label, color);
+  applyColor(color);
+  saveCache(sessionId, color);
   process.exit(0);
 }
 
 if (cached?.cleared) process.exit(0);
 
 const color = pickColor(sessionId);
-applyColor(color, label);
-saveCache(sessionId, cwd, label, color);
+applyColor(color);
+saveCache(sessionId, color);
