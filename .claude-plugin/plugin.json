@@ -1,0 +1,13 @@
+{
+  "name": "tint-my-claudecode",
+  "version": "1.0.0",
+  "description": "Auto color-code Claude Code terminal sessions for instant visual identification",
+  "author": {
+    "name": "Sanghoon Ahn"
+  },
+  "repository": "https://github.com/hoonahn/tint-my-claudecode",
+  "homepage": "https://github.com/hoonahn/tint-my-claudecode",
+  "license": "MIT",
+  "keywords": ["claude-code", "plugin", "color", "session", "terminal", "ghostty", "iterm2"],
+  "skills": "./skills/"
+}

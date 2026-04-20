@@ -1,0 +1,25 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "tint-my-claudecode",
+  "description": "Auto color-code your Claude Code terminal sessions for instant visual identification",
+  "owner": {
+    "name": "Sanghoon Ahn",
+    "email": "hoonahn@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "tint-my-claudecode",
+      "description": "Automatically assigns a unique, persistent color tint to each Claude Code session so you can identify them at a glance — no reading required.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Sanghoon Ahn",
+        "email": "hoonahn@gmail.com"
+      },
+      "source": "./",
+      "category": "productivity",
+      "homepage": "https://github.com/hoonahn/tint-my-claudecode",
+      "tags": ["color", "session", "terminal", "ghostty", "iterm2", "productivity"]
+    }
+  ],
+  "version": "1.0.0"
+}
